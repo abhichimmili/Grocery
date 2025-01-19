@@ -12,6 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyviewHolder> {
     private List<Item> itemList;
+    public  ItemClickListener clickListener;
+
+
+    public void setClickListener(ItemClickListener myListener){
+        this.clickListener= myListener;
+    }
 
     public MyAdapter(List<Item> itemList) {
         this.itemList = itemList;
@@ -42,7 +48,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyviewHolder> {
     }
 
 
-    public static class MyviewHolder extends RecyclerView.ViewHolder{
+    public class MyviewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView imageView;
         TextView title,description;
@@ -51,6 +57,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyviewHolder> {
             imageView=itemView.findViewById(R.id.imageView);
             title=itemView.findViewById(R.id.title_txt);
             description=itemView.findViewById(R.id.description_txt);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if(clickListener!=null){
+                clickListener.onCLick(v,getAdapterPosition());
+            }
         }
     }
 }
